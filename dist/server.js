@@ -14,27 +14,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@apollo/server");
 const express4_1 = require("@apollo/server/express4");
+const typeDefs_1 = require("./graphql/typeDefs");
+const resolvers_1 = require("./graphql/resolvers");
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
-const typeDefs_1 = require("./graphql/typeDefs");
-const resolvers_1 = require("./graphql/resolvers");
 const logger_middleware_1 = require("./middleware/logger.middleware");
+dotenv_1.default.config();
 // Create Express server
 const app = (0, express_1.default)();
 // Create Apollo server
 const apolloServer = new server_1.ApolloServer({
     typeDefs: typeDefs_1.typeDefs,
-    resolvers: resolvers_1.resolvers
+    resolvers: resolvers_1.resolvers,
 });
 // Start Server
 const startServer = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Connect to MongoDB
         const MONGO_URI = process.env.MONGO_URI;
-        yield mongoose_1.default.connect(MONGO_URI, { dbName: 'graphql' });
+        yield mongoose_1.default.connect(MONGO_URI, { dbName: "my_store" });
         console.log("Connected to MongoDB");
         // Apollo Server
         yield apolloServer.start();
